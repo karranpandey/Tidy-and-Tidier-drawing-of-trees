@@ -1,0 +1,174 @@
+#include <iostream>
+#include "treeUtil.h"
+#include <climits>
+
+using namespace std;
+
+void printTree(BTNode *root) {
+    if(root != nullptr){
+        printTree(root->getLeft());
+        std::cout << "info = " << root->getInfo() << " x = " << root-> getX() << " y = " << root->getY() << std::endl;
+        printTree(root->getRight());
+    }
+}
+
+BTNode* getNode(BTNode *root, int i) {
+    if(root != nullptr) {
+        if(root->getInfo() == i)
+            return root;
+        BTNode *c;
+        c = getNode(root->getLeft(), i);
+        if(c != nullptr && c->getInfo() == i)
+            return c;
+        c = getNode(root->getRight(), i);
+        if(c != nullptr && c->getInfo() == i)
+            return c;
+    }
+    else return nullptr;
+}
+
+BTNode *inputTree() {
+    cout << "Enter the info (int) for root of the tree (ex 5): ";
+    int info;
+    cin >> info;
+    BTNode *root = new BTNode(info, nullptr);
+    cout << "Enter the info for other nodes in following manner" << endl;
+    cout << "(parent's info) (0 if node is parent's left child, 1 otherwise) (node's info)\nex: 5 0 3 (or) 5 1 6" << endl;
+    cout << "Enter y to enter a new node and e to exit" << endl;
+    char resp;
+    cin >> resp;
+    int pInfo, child;
+    while(resp == 'y') {
+//        cout << "resp = " << resp << endl;
+
+        cin >> pInfo >> child >> info;
+        BTNode *parent = getNode(root, pInfo);
+        if(parent == nullptr) {
+                cout << "Not a valid parent, please try again!" << endl;
+        }
+        else {
+            BTNode *newNode = new BTNode(info, parent);
+            if(child == 0) {
+                parent->setLeft(newNode);
+            }
+            else if(child == 1) {
+                parent->setRight(newNode);
+            }
+            else {
+                cout << "Not a valid child position, please try again!" << endl;
+            }
+        }
+
+        cout << "Enter y to enter a new node and e to exit" << endl;
+        cin >> resp;
+    }
+    return root;
+}
+
+
+void scaleTree(BTNode *root, int xScale, int yScale) {
+    if(root != nullptr) {
+        root->setX(root->getX()*xScale);
+        root->setY(root->getY()*yScale);
+        scaleTree(root->getLeft(), xScale, yScale);
+        scaleTree(root->getRight(), xScale, yScale);
+    }
+}
+
+/**
+Function to get the height of the tree
+*/
+int getTreeHeight(BTNode *root) {
+    if(root == nullptr) return 0;
+    int max_left = getTreeHeight(root->getLeft())+1;
+    int max_right = getTreeHeight(root->getRight())+1;
+    return (max_right > max_left) ? max_right : max_left;
+}
+
+/**
+Function to invert the tree about x axis
+*/
+void invertTreeX(BTNode *root, int height) {
+    if(root != nullptr) {
+        root->setY(height - root->getY()-1);
+        invertTreeX(root->getLeft(), height);
+        invertTreeX(root->getRight(), height);
+    }
+}
+
+/**
+Function to translate along y axis
+*/
+void translateY(BTNode *root, int dist) {
+    if(root != nullptr) {
+        root->setY(dist + root->getY());
+        translateY(root->getLeft(), dist);
+        translateY(root->getRight(), dist);
+    }
+}
+
+/**
+Function to get the extreme x values of the tree
+*/
+void getXExtremeOfTree(BTNode *root, int arr[2]) {
+    if(root != nullptr) {
+        if(arr[0] > root->getX())   // min
+            arr[0] = root->getX();
+        if(arr[1] < root->getX())   // max
+            arr[1] = root->getX();
+        getXExtremeOfTree(root->getLeft(), arr);
+        getXExtremeOfTree(root->getRight(), arr);
+    }
+}
+
+/**
+Function to make the center of tree at x = 0
+*/
+void centerTree(BTNode *root, int center) {
+    if(root != nullptr) {
+        root->setX(root->getX() - center);
+        centerTree(root->getLeft(), center);
+        centerTree(root->getRight(), center);
+    }
+}
+
+/**
+Function to translate along x axis
+*/
+void translateX(BTNode *root, int dist) {
+     if(root != nullptr) {
+        root->setX(dist + root->getX());
+        translateX(root->getLeft(), dist);
+        translateX(root->getRight(), dist);
+    }
+}
+/**
+Multiplies the height of each node by mul
+*/
+void mulHeight(BTNode *root, int mul) {
+    if(root != nullptr) {
+        root->setY(root->getY() * mul);
+        mulHeight(root->getLeft(), mul);
+        mulHeight(root->getRight(), mul);
+    }
+}
+
+void alignTree(BTNode *root, int radius, int WIN_HEIGHT, int WIN_WIDTH) {
+
+    mulHeight(root, 2*radius);
+
+    int height = getTreeHeight(root);
+    invertTreeX(root, height);
+
+    translateY(root, WIN_HEIGHT - root->getY() - radius - 10);
+
+    int arr[2];
+    arr[0] = INT_MAX;
+    arr[1] = 0;
+    getXExtremeOfTree(root, arr);
+
+    centerTree(root, (arr[0]+arr[1])/2);
+
+    translateX(root, WIN_WIDTH/2);
+}
+
