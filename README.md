@@ -21,6 +21,8 @@ This algorithm also does a post order traversal of the nodes, for each node it a
 
 This algorithm is linear in the number of nodes of the tree as it is basically just the post order traversal that's happening in terms of the effective work that the algorithm needs to do. 
 
+![Alt text](image1.png?raw=true "Title")
+
 **TR Algorithm**
 
 Since the algorithm also uses a post order traversal, that part of it is linear in the number of nodes, the added section of traversing the contours of the sub trees of every node needs to be examined more closely.
@@ -45,6 +47,8 @@ An expression linear in N(T) just like in WS.
 
 It may also happen that some of these adjacent pairs don't belong to contours of left and right sub trees of a common parent, in which case they won't add to the traversal number. This is not a problem as the number of traversals will be even lesser in this case and our above theory calculation to form an expression linear in N (T) forms a respectable upper bound for the number of traversals we need to do. Therefore we can say that this algorithm is also linear in the number of nodes of the tree in terms of time complexity.
 
+![Alt text](image2.png?raw=true "Title")
+
 **Comparison of Space (Width) requirements for the two algorithms**
 
 **Anomalous behavior of the WS Algorithm**
@@ -68,6 +72,9 @@ In case the WS anomaly isn't happening that means all our leaves are either left
 
 In case the WS anomaly happens, as shown above, the TR algorithm will perform better due to its logic of minimum separation of sub tree contours.
 
+![Alt text](image3.png?raw=true "Title")
+
+![Alt text](image4.png?raw=true "Title")
 
 
 
