@@ -6,11 +6,13 @@ Tidy and Tidier tree drawing algorithms in C++
 **Basic Methodology**
 
 **Tidy Tree Drawing Algorithm: The WS Algorithm**
+
 The algorithm works through a post order traversal of the tree without using recursion, thus making it a friendly choice for non-recursive languages.
 
 The nodes are assigned provisional positions at first based on the three basic aesthetics for tree drawing and a left margin approach (Assigning leaves leftmost positions to begin with, attempting to reduce width by sticking as far as possible to the left margin) along with a modifier in case these provisional positions don't satisfy the minimum distance requirement with respect to other previously assigned nodes on its level. The modifier indicates the amount that the node, its sub trees and all nodes and sub trees to its right on its level need to be pushed to satisfy the minimum distance requirement that was being violated.
 
 **Tidier Tree Algorithm: The TR Algorithm**
+
 This algorithm also does a post order traversal of the nodes, for each node it also traverses the contour of both its right and left sub trees and ensures a minimum separation between the contours on each level. As a result we end up with an added symmetricity to our output tree. This is lacking in the WS Algorithm due to the inherent asymmetry in the post order traversal.
 
 **Time Complexity Comparison**
