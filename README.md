@@ -72,9 +72,9 @@ In case the WS anomaly isn't happening that means all our leaves are either left
 
 In case the WS anomaly happens, as shown above, the TR algorithm will perform better due to its logic of minimum separation of sub tree contours.
 
-![Alt text](image3.png?raw=true "Title")
+![Alt text](image3.jpeg?raw=true "Title")
 
-![Alt text](image4.png?raw=true "Title")
+![Alt text](image4.jpeg?raw=true "Title")
 
 
 
